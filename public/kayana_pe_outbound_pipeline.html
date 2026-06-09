@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kayana — PE Outbound Pipeline System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --white: #F7F5F0;
+    --cream: #EDE9E0;
+    --accent: #C8501A;
+    --accent-light: #F2E8E2;
+    --accent-mid: #E07045;
+    --gray-1: #1A1A1A;
+    --gray-2: #2E2E2E;
+    --gray-3: #555;
+    --gray-4: #888;
+    --gray-5: #CCC;
+    --gray-6: #E8E4DC;
+    --green: #2D6A4F;
+    --green-light: #E8F4EE;
+    --blue: #1A3A5C;
+    --blue-light: #E6EEF7;
+    --amber: #7A4A0A;
+    --amber-light: #FFF3DC;
+    --purple: #3D2B6B;
+    --purple-light: #EDE8F7;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--gray-2);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-logo {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .header-logo span { color: var(--accent); }
+  .header-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-4);
+    border: 1px solid var(--gray-2);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 56px 32px 48px;
+    border-bottom: 1px solid var(--gray-2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 48px;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent-mid);
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--gray-4);
+    line-height: 1.7;
+    max-width: 380px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .stat-card {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: var(--accent-mid);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--gray-4);
+    line-height: 1.4;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--gray-2);
+    padding: 0 32px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-4);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 16px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  .tab-btn:hover { color: var(--white); }
+  .tab-btn.active { color: var(--accent-mid); border-bottom-color: var(--accent); }
+
+  /* CONTENT SECTIONS */
+  .section { display: none; padding: 32px; }
+  .section.active { display: block; }
+
+  .section-head {
+    margin-bottom: 28px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--gray-4);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* PIPELINE FLOW */
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 32px;
+  }
+  .pipeline-stage {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 0;
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .pipeline-stage:hover { border-color: var(--gray-3); }
+  .stage-num {
+    background: var(--gray-1);
+    border-right: 1px solid var(--gray-2);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stage-index {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.1em;
+  }
+  .stage-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .stage-tool {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    margin-top: 4px;
+  }
+  .tool-clay { background: #1a2a1a; color: #5EB87A; border: 1px solid #2d4a2d; }
+  .tool-apollo { background: #1a1a2e; color: #7B8FD4; border: 1px solid #2d2d50; }
+  .tool-n8n { background: #2a1a10; color: #D4834B; border: 1px solid #4a2d1a; }
+  .tool-claude { background: #1a1020; color: #B088D4; border: 1px solid #3d2a50; }
+  .tool-make { background: #101a20; color: #5BA4C8; border: 1px solid #1a3040; }
+  .tool-slack { background: #1a1a10; color: #C8B850; border: 1px solid #3a3a1a; }
+  .tool-hubspot { background: #251010; color: #D47060; border: 1px solid #502020; }
+
+  .stage-body {
+    padding: 20px 24px;
+    border-right: 1px solid var(--gray-2);
+  }
+  .stage-desc {
+    font-size: 13px;
+    color: var(--gray-4);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .stage-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .action-chip {
+    font-size: 11px;
+    color: var(--gray-5);
+    background: var(--gray-2);
+    border-radius: 100px;
+    padding: 3px 10px;
+    border: 1px solid var(--gray-2);
+  }
+  .stage-output {
+    padding: 20px 24px;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .output-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .output-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .output-sub {
+    font-size: 11px;
+    color: var(--gray-4);
+    line-height: 1.4;
+  }
+
+  /* SIGNAL CARDS */
+  .signal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .signal-card {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    transition: border-color .2s, transform .15s;
+    cursor: default;
+  }
+  .signal-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .signal-priority {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .priority-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+  }
+  .p-critical { background: #2a0a0a; color: #FF6B6B; border: 1px solid #4a1a1a; }
+  .p-high { background: #2a1a08; color: #FFB347; border: 1px solid #4a3010; }
+  .p-medium { background: #0a1a2a; color: #7EC8E3; border: 1px solid #1a3040; }
+  .signal-window {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+  }
+  .signal-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .signal-desc {
+    font-size: 12px;
+    color: var(--gray-4);
+    line-height: 1.5;
+  }
+  .signal-trigger {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent-mid);
+  }
+
+  /* ICP TABLE */
+  .icp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 28px;
+  }
+  .icp-table th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-4);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--gray-2);
+  }
+  .icp-table td {
+    font-size: 13px;
+    color: var(--gray-5);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-2);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .icp-table tr:last-child td { border-bottom: none; }
+  .icp-table tr:hover td { background: var(--gray-1); }
+  .icp-table .highlight { color: var(--white); font-weight: 600; }
+  .score-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .score-fill {
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .score-fill.high { width: 80px; }
+  .score-fill.med { width: 50px; }
+  .score-fill.low { width: 28px; }
+  .score-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+  }
+
+  /* MESSAGING TEMPLATES */
+  .msg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .msg-card {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .msg-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--gray-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .msg-type {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .msg-persona {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+  .persona-pe { background: #1a1040; color: #9080D4; border: 1px solid #2d2060; }
+  .persona-portco { background: #0a1a10; color: #50B870; border: 1px solid #1a3020; }
+  .msg-body {
+    padding: 18px;
+  }
+  .msg-subject {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .msg-text {
+    font-size: 12px;
+    color: var(--gray-4);
+    line-height: 1.7;
+  }
+  .msg-text .var {
+    color: var(--accent-mid);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .msg-text strong { color: var(--gray-5); font-weight: 600; }
+  .copy-btn {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-4);
+    background: none;
+    border: 1px solid var(--gray-2);
+    border-radius: 100px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+  }
+  .copy-btn:hover { color: var(--white); border-color: var(--gray-3); }
+  .copy-btn.copied { color: #50B870; border-color: #2d4a2d; }
+
+  /* TECH STACK */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .stack-card {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    padding: 18px 16px;
+    transition: border-color .2s;
+  }
+  .stack-card:hover { border-color: var(--gray-3); }
+  .stack-layer {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .stack-tool-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .stack-tool-desc {
+    font-size: 11px;
+    color: var(--gray-4);
+    line-height: 1.5;
+  }
+  .stack-cost {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+  }
+
+  /* SPRINT PLAN */
+  .sprint-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .sprint-card {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .sprint-week {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .sprint-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .sprint-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .sprint-task {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--gray-4);
+    line-height: 1.4;
+  }
+  .task-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .sprint-deliverable {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--gray-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent-mid);
+  }
+
+  /* METRICS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .metric-card {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-2);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+  }
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .metric-target {
+    font-size: 11px;
+    color: var(--gray-4);
+  }
+  .metric-target span { color: var(--accent-mid); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 28px 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--gray-1);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .callout-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout-text {
+    font-size: 13px;
+    color: var(--gray-4);
+    line-height: 1.6;
+  }
+  .callout-text strong { color: var(--white); }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--gray-2);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  .footer-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+  }
+  .footer-brand {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-title { font-size: 32px; }
+    .signal-grid { grid-template-columns: 1fr; }
+    .msg-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: 1fr 1fr; }
+    .sprint-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+    .pipeline-stage { grid-template-columns: 1fr; }
+    .stage-num, .stage-body { border-right: none; border-bottom: 1px solid var(--gray-2); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo"><span>Kayana</span> × Xenoz — PE Outbound System</div>
+  <div class="header-tag">Confidential · 2026</div>
+</div>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">AI-Powered Outbound Pipeline</div>
+    <h1 class="hero-title">Reach the right<br><em>portco operator</em><br>48 hrs post-close</h1>
+    <p class="hero-sub">A signal-triggered, AI-personalized outbound system that turns PE deal flow into Kayana pipeline — fully automated from signal detection to booked call.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-num">48h</div>
+      <div class="stat-label">Target time from deal close to first outreach</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5×</div>
+      <div class="stat-label">Personalization at scale vs manual sequencing</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">ICP tiers, each with distinct messaging</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Marginal cost per AI-written outreach email</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('pipeline')">Pipeline Flow</button>
+  <button class="tab-btn" onclick="switchTab('signals')">Buy Signals</button>
+  <button class="tab-btn" onclick="switchTab('icp')">ICP Tiers</button>
+  <button class="tab-btn" onclick="switchTab('messaging')">Message Templates</button>
+  <button class="tab-btn" onclick="switchTab('stack')">Tech Stack</button>
+  <button class="tab-btn" onclick="switchTab('sprint')">Build Sprint</button>
+  <button class="tab-btn" onclick="switchTab('metrics')">KPIs</button>
+</div>
+
+<!-- PIPELINE FLOW -->
+<div id="tab-pipeline" class="section active">
+  <div class="section-head">
+    <div class="section-label">Stage 01 → 07</div>
+    <h2 class="section-title">The full pipeline, end to end</h2>
+    <p class="section-sub">Seven automated stages from deal signal detection to closed client. Each stage feeds the next with zero human intervention until a meeting is booked.</p>
+  </div>
+
+  <div class="pipeline">
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 01</div>
+        <div class="stage-name">Signal Detection</div>
+        <span class="stage-tool tool-clay">Clay + Crunchbase</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">Monitor PE deal databases for new acquisitions, portco expansions, and leadership changes. Automatically detect the 48-hour urgency window post-close.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Watch Crunchbase funding alerts</span>
+          <span class="action-chip">Monitor PE Wire / Axios Pro Deals RSS</span>
+          <span class="action-chip">Track LinkedIn portco headcount changes</span>
+          <span class="action-chip">Flag COO / VP Ops job postings at portcos</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">Triggered account</div>
+        <div class="output-sub">Company + deal context auto-logged to CRM</div>
+      </div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 02</div>
+        <div class="stage-name">Account Enrichment</div>
+        <span class="stage-tool tool-clay">Clay + Apollo</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">Enrich the triggered account with firmographics, org structure, tech stack, and current headcount. Score the account against Kayana's ICP model before any outreach is written.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Pull revenue range + employee count</span>
+          <span class="action-chip">Detect current tech stack (ops tools)</span>
+          <span class="action-chip">Map the org chart — find the decision-maker</span>
+          <span class="action-chip">Score against ICP rubric (0–100)</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">ICP score + contacts</div>
+        <div class="output-sub">Decision-maker identified with verified email</div>
+      </div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 03</div>
+        <div class="stage-name">AI Message Generation</div>
+        <span class="stage-tool tool-claude">Claude API</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">Claude generates a personalized cold email using the deal context, company data, and decision-maker profile. Every email reads as individually researched — because it is.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Reference the specific deal/acquisition</span>
+          <span class="action-chip">Name the operational gap Kayana solves</span>
+          <span class="action-chip">Vary angle by persona (PE partner vs portco CEO)</span>
+          <span class="action-chip">Generate 3 subject line variants per email</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">1:1 email draft</div>
+        <div class="output-sub">Queued for human review or auto-send (by tier)</div>
+      </div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 04</div>
+        <div class="stage-name">Sequence Enrollment</div>
+        <span class="stage-tool tool-apollo">Apollo / Instantly</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">Enroll qualified accounts into the appropriate multi-touch sequence based on ICP tier and signal type. High-signal accounts get expedited 3-day cadences; warm accounts go into a 14-day flow.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Tier A: 72-hour urgent cadence (post-acquisition)</span>
+          <span class="action-chip">Tier B: 14-day nurture with 5 touches</span>
+          <span class="action-chip">Tier C: Monthly newsletter + trigger re-enroll</span>
+          <span class="action-chip">LinkedIn touch auto-inserted at Day 3</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">Active sequence</div>
+        <div class="output-sub">Multi-channel (email + LinkedIn)</div>
+      </div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 05</div>
+        <div class="stage-name">Response Handling</div>
+        <span class="stage-tool tool-claude">Claude API</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">AI classifies inbound replies by intent (positive, question, not now, no). Auto-draft suggested responses for positive and question replies. Flag for human review within 15 minutes of receipt.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Sentiment classification on every reply</span>
+          <span class="action-chip">Auto-draft follow-up for "interested" replies</span>
+          <span class="action-chip">Slack alert to Chris/team for hot leads</span>
+          <span class="action-chip">Auto-pause sequence on OOO detection</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">Classified reply + draft</div>
+        <div class="output-sub">Hot leads surfaced to human within 15 min</div>
+      </div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 06</div>
+        <div class="stage-name">Meeting Booking</div>
+        <span class="stage-tool tool-n8n">n8n + Calendly</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">Hot replies trigger an automated booking flow — send Calendly link, confirm meeting, create HubSpot deal, generate a pre-call brief for Chris automatically.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Auto-send booking link on positive reply</span>
+          <span class="action-chip">Create HubSpot deal at "Meeting Booked" stage</span>
+          <span class="action-chip">Generate pre-call brief (company + person summary)</span>
+          <span class="action-chip">Add to Chris's prep doc 24hrs before call</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">Booked call</div>
+        <div class="output-sub">Brief auto-delivered to Chris pre-meeting</div>
+      </div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-num">
+        <div class="stage-index">Stage 07</div>
+        <div class="stage-name">Pipeline Intelligence</div>
+        <span class="stage-tool tool-hubspot">HubSpot + n8n</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-desc">Every interaction feeds the intelligence loop — reply rates by signal type, conversion rates by ICP tier, message variants that outperform. The system learns which signals convert fastest and auto-prioritizes accordingly.</div>
+        <div class="stage-actions">
+          <span class="action-chip">Weekly pipeline report auto-sent to Chris</span>
+          <span class="action-chip">A/B test subject lines and email angles</span>
+          <span class="action-chip">Score which signals → highest close rate</span>
+          <span class="action-chip">Re-engage 90-day-old "not now" leads</span>
+        </div>
+      </div>
+      <div class="stage-output">
+        <div class="output-label">Output</div>
+        <div class="output-val">Learning loop</div>
+        <div class="output-sub">System gets smarter every week</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BUY SIGNALS -->
+<div id="tab-signals" class="section">
+  <div class="section-head">
+    <div class="section-label">Trigger Events</div>
+    <h2 class="section-title">Signals that trigger outreach</h2>
+    <p class="section-sub">Not all signals are equal. The post-acquisition window is Kayana's highest-converting signal — the portco is in chaos, the PE firm is demanding execution, and no one has an ops team yet.</p>
+  </div>
+
+  <div class="signal-grid">
+
+    <div class="signal-card">
+      <div class="signal-priority">
+        <span class="priority-badge p-critical">Critical</span>
+        <span class="signal-window">0–72 hrs</span>
+      </div>
+      <div class="signal-title">New PE acquisition announced</div>
+      <div class="signal-desc">PE firm closes on a lower-middle-market company. The portco immediately needs ops infrastructure — usually before a 100-day plan even exists.</div>
+      <div class="signal-trigger">→ Trigger Tier A urgent sequence immediately</div>
+    </div>
+
+    <div class="signal-card">
+      <div class="signal-priority">
+        <span class="priority-badge p-critical">Critical</span>
+        <span class="signal-window">48 hrs</span>
+      </div>
+      <div class="signal-title">COO / VP Ops role posted at portco</div>
+      <div class="signal-desc">A job posting for ops leadership at a PE-backed company signals a gap — either the role is vacant or they're scaling. Both are Kayana opportunities.</div>
+      <div class="signal-trigger">→ Trigger Tier A sequence to CEO / PE partner</div>
+    </div>
+
+    <div class="signal-card">
+      <div class="signal-priority">
+        <span class="priority-badge p-high">High</span>
+        <span class="signal-window">1 week</span>
+      </div>
+      <div class="signal-title">Portco headcount 2× in 90 days</div>
+      <div class="signal-desc">Rapid headcount growth means the ops layer is breaking. They need EAs, chiefs of staff, and systems builders — now.</div>
+      <div class="signal-trigger">→ Enroll in Tier B expansion sequence</div>
+    </div>
+
+    <div class="signal-card">
+      <div class="signal-priority">
+        <span class="priority-badge p-high">High</span>
+        <span class="signal-window">72 hrs</span>
+      </div>
+      <div class="signal-title">PE firm closes new fund</div>
+      <div class="signal-desc">A new fund close means active deal deployment is imminent. Build the PE partner relationship before they start acquiring — so Kayana is already top of mind at close.</div>
+      <div class="signal-trigger">→ Trigger PE partner warm intro sequence</div>
+    </div>
+
+    <div class="signal-card">
+      <div class="signal-priority">
+        <span class="priority-badge p-high">High</span>
+        <span class="signal-window">1 week</span>
+      </div>
+      <div class="signal-title">New portco CEO or leadership install</div>
+      <div class="signal-desc">PE firms often install new leadership post-acquisition. New CEOs want to build their own ops team — they're receptive to external solutions in month 1.</div>
+      <div class="signal-trigger">→ Enroll new leader in personalized Tier A flow</div>
+    </div>
+
+    <div class="signal-card">
+      <div class="signal-priority">
+        <span class="priority-badge p-medium">Medium</span>
+        <span class="signal-window">2 weeks</span>
+      </div>
+      <div class="signal-title">Portco announces expansion / new market</div>
+      <div class="signal-desc">Geographic or product expansion creates ops complexity. The company needs remote execution capacity before headcount can catch up.</div>
+      <div class="signal-trigger">→ Enroll in Tier B growth sequence</div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">The 48-Hour Rule</div>
+    <div class="callout-text">Research from PE advisory firms consistently shows that <strong>the first vendor to reach a portco operator post-acquisition has a 3–4× higher close rate</strong> than those who reach out 2+ weeks later. The operator is still in "what do I need?" mode — not "we've already figured it out." Kayana's entire competitive advantage in outbound is winning this window before anyone else.</div>
+  </div>
+</div>
+
+<!-- ICP TIERS -->
+<div id="tab-icp" class="section">
+  <div class="section-head">
+    <div class="section-label">Target Profiles</div>
+    <h2 class="section-title">Three ICP tiers, three conversations</h2>
+    <p class="section-sub">Each persona has different pain, different authority, and different language. The system routes to the right message automatically based on who you're reaching.</p>
+  </div>
+
+  <table class="icp-table">
+    <thead>
+      <tr>
+        <th>Tier</th>
+        <th>Persona</th>
+        <th>Company Profile</th>
+        <th>Core Pain</th>
+        <th>Kayana Angle</th>
+        <th>Fit Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="priority-badge p-critical" style="display:inline-block;">Tier A</span></td>
+        <td class="highlight">Portco CEO / COO<br><span style="font-weight:400;color:var(--gray-4);font-size:12px;">Post-acquisition, 0–6 months</span></td>
+        <td>PE-backed, $5M–$50M revenue, 10–200 employees, lower-middle market</td>
+        <td>PE firm demanding 100-day plan, no ops infrastructure, leadership overwhelmed, can't hire fast enough</td>
+        <td>"We embed an execution layer in days, not months — your PE firm gets visibility, you get bandwidth back"</td>
+        <td><div class="score-bar"><div class="score-fill high"></div><span class="score-text">High</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="priority-badge p-critical" style="display:inline-block;">Tier A</span></td>
+        <td class="highlight">PE Operating Partner<br><span style="font-weight:400;color:var(--gray-4);font-size:12px;">Value creation / portfolio ops</span></td>
+        <td>Mid-to-large PE firm, 3–15 portfolio companies, active value creation role</td>
+        <td>Multiple portcos needing ops support simultaneously, no scalable ops staffing solution across portfolio</td>
+        <td>"One relationship, portfolio-wide ops coverage — we deploy across your portcos with one SLA"</td>
+        <td><div class="score-bar"><div class="score-fill high"></div><span class="score-text">High</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="priority-badge p-high" style="display:inline-block;">Tier B</span></td>
+        <td class="highlight">Founder-CEO (PE-backed)<br><span style="font-weight:400;color:var(--gray-4);font-size:12px;">First institutional money, scaling</span></td>
+        <td>Recently PE-backed growth company, $2M–$20M revenue, founder still running ops</td>
+        <td>Founder stuck in day-to-day, PE board wants them thinking strategy not execution, no ops layer</td>
+        <td>"We free the founder. Your EA and chief of staff is ready in 2 weeks, trained on your stack"</td>
+        <td><div class="score-bar"><div class="score-fill med"></div><span class="score-text">Medium</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="priority-badge p-high" style="display:inline-block;">Tier B</span></td>
+        <td class="highlight">PE Associate / Principal<br><span style="font-weight:400;color:var(--gray-4);font-size:12px;">Deal team, diligence phase</span></td>
+        <td>Any PE firm with active deal flow, pre-close diligence or immediate post-close</td>
+        <td>Needs to stand up ops at portco fast, diligence finding ops gaps pre-close, wants a solution ready at day 1</td>
+        <td>"We're the ops execution firm you bring in at close — or before — so day 1 isn't chaos"</td>
+        <td><div class="score-bar"><div class="score-fill med"></div><span class="score-text">Medium</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="priority-badge p-medium" style="display:inline-block;">Tier C</span></td>
+        <td class="highlight">VP / Director of Operations<br><span style="font-weight:400;color:var(--gray-4);font-size:12px;">Platform-stage portco</span></td>
+        <td>Larger portco, 200+ employees, ops leader in seat but understaffed</td>
+        <td>Team too thin to hit PE growth targets, needs embedded support not full-time hires</td>
+        <td>"Scale your ops team output without headcount cost — embedded remote operators ready in days"</td>
+        <td><div class="score-bar"><div class="score-fill low"></div><span class="score-text">Lower</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-label">Prioritization Logic</div>
+    <div class="callout-text">The system auto-scores accounts on: <strong>recency of acquisition signal (40%)</strong> + <strong>company size fit (30%)</strong> + <strong>decision-maker seniority (20%)</strong> + <strong>ops tool stack gap (10%)</strong>. Accounts scoring 70+ get Tier A treatment. 40–70 get Tier B. Below 40 get Tier C nurture only.</div>
+  </div>
+</div>
+
+<!-- MESSAGING TEMPLATES -->
+<div id="tab-messaging" class="section">
+  <div class="section-head">
+    <div class="section-label">Outreach Templates</div>
+    <h2 class="section-title">AI-generated, human-grade copy</h2>
+    <p class="section-sub">These are the Claude API prompt structures — each variable is filled dynamically from the enriched account data. The output reads 1:1 even at 1:1000 scale.</p>
+  </div>
+
+  <div class="msg-grid">
+
+    <div class="msg-card">
+      <div class="msg-header">
+        <span class="msg-type">Email 01 — Post-Acquisition</span>
+        <span class="msg-persona persona-portco">Portco CEO</span>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">Subject: Congrats on the <span class="var">{{PE_firm}}</span> deal — quick thought on ops</div>
+        <div class="msg-text">
+          Hey <span class="var">{{first_name}}</span>,<br><br>
+          Congrats on closing with <span class="var">{{PE_firm}}</span> — that's a big milestone.<br><br>
+          Most <span class="var">{{industry}}</span> operators we talk to post-close are dealing with the same thing: <strong>the PE board wants a 100-day plan, but the ops layer to execute it doesn't exist yet.</strong><br><br>
+          Kayana embeds executive assistants, chiefs of staff, and ops leads into portcos within 2 weeks. We've done this across <span class="var">{{PE_firm_portfolio_size}}</span>-type platforms before.<br><br>
+          Worth a 20-min call to see if there's a fit? No pitch deck, just a conversation.<br><br>
+          — Chris
+        </div>
+        <button class="copy-btn" onclick="copyMsg(this)">Copy template</button>
+      </div>
+    </div>
+
+    <div class="msg-card">
+      <div class="msg-header">
+        <span class="msg-type">Email 01 — Portfolio Pitch</span>
+        <span class="msg-persona persona-pe">PE Operating Partner</span>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">Subject: Ops execution across your <span class="var">{{firm_name}}</span> portfolio</div>
+        <div class="msg-text">
+          Hi <span class="var">{{first_name}}</span>,<br><br>
+          I work with PE operating partners who are building ops infrastructure across their portfolio companies — usually the unglamorous stuff: EAs, project managers, chiefs of staff, systems builders.<br><br>
+          <strong>What we do differently: we embed, manage, and report — so you don't have to.</strong> One relationship, deployed across multiple portcos with standardized SLAs.<br><br>
+          <span class="var">{{firm_name}}</span> has <span class="var">{{portfolio_count}}</span> active portcos. We've helped similar platforms cut ops costs by 50–70% vs local hires while maintaining execution quality.<br><br>
+          Open to a 20-min intro call this week?<br><br>
+          — Chris Nolte, CEO @ Kayana
+        </div>
+        <button class="copy-btn" onclick="copyMsg(this)">Copy template</button>
+      </div>
+    </div>
+
+    <div class="msg-card">
+      <div class="msg-header">
+        <span class="msg-type">Follow-up Day 3 — No Reply</span>
+        <span class="msg-persona persona-portco">Portco CEO / COO</span>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">Subject: Re: Congrats on the <span class="var">{{PE_firm}}</span> deal</div>
+        <div class="msg-text">
+          <span class="var">{{first_name}}</span> — quick follow-up.<br><br>
+          I know the first 90 days post-close are <strong>full chaos.</strong> That's exactly when we help most.<br><br>
+          One question worth 60 seconds: <strong>do you have someone you trust handling your daily ops right now, or is that still on your plate?</strong><br><br>
+          If it's the latter, let's talk this week.<br><br>
+          — Chris
+        </div>
+        <button class="copy-btn" onclick="copyMsg(this)">Copy template</button>
+      </div>
+    </div>
+
+    <div class="msg-card">
+      <div class="msg-header">
+        <span class="msg-type">LinkedIn DM — Day 3 Touch</span>
+        <span class="msg-persona persona-portco">All Tiers</span>
+      </div>
+      <div class="msg-body">
+        <div class="msg-subject">— (No subject for LinkedIn)</div>
+        <div class="msg-text">
+          Hey <span class="var">{{first_name}}</span> — saw the news about <span class="var">{{company_name}}</span> and <span class="var">{{PE_firm}}</span>. Big deal.<br><br>
+          Sent you an email a few days ago about how we support portco ops teams post-acquisition. Didn't want it to get lost in the inbox.<br><br>
+          <strong>Would love 20 mins if there's any ops bandwidth you're trying to solve for.</strong><br><br>
+          — Chris @ Kayana
+        </div>
+        <button class="copy-btn" onclick="copyMsg(this)">Copy template</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Claude API Prompt Logic</div>
+    <div class="callout-text">Each template above is the <em>output</em> structure. The Claude API prompt instructs the model to fill all <strong style="color:var(--accent-mid)">{{variables}}</strong> from enriched Clay data, match the tone to the persona tier, reference one specific recent signal (acquisition, job post, funding), and keep the email under 120 words. Three subject line variants are generated per email and the highest-performing variant (tracked over 90 days) is automatically selected.</div>
+  </div>
+</div>
+
+<!-- TECH STACK -->
+<div id="tab-stack" class="section">
+  <div class="section-head">
+    <div class="section-label">Infrastructure</div>
+    <h2 class="section-title">The exact tools, wired together</h2>
+    <p class="section-sub">Each layer has one job. The data layer feeds the AI layer, the AI layer feeds the execution layer, the execution layer feeds the intelligence layer. No tool does double duty.</p>
+  </div>
+
+  <div class="stack-grid">
+
+    <div class="stack-card">
+      <div class="stack-layer">Signal Layer</div>
+      <div class="stack-tool-name">Crunchbase Pro</div>
+      <div class="stack-tool-desc">Deal alerts, PE fund closes, portco headcount changes. RSS feeds for Axios Pro Deals + PitchBook as backup.</div>
+      <div class="stack-cost">~$299/mo · API available</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">Enrichment Layer</div>
+      <div class="stack-tool-name">Clay</div>
+      <div class="stack-tool-desc">Auto-enrich triggered accounts with 90+ data points. Waterfall enrichment across Hunter, Apollo, LinkedIn. ICP scoring formula built in Clay.</div>
+      <div class="stack-cost">$149–$800/mo · Usage-based credits</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">Contact Database</div>
+      <div class="stack-tool-name">Apollo.io</div>
+      <div class="stack-tool-desc">Find decision-makers at triggered accounts. Verified emails + phone numbers. 275M+ contact database. Sequence execution for Tier C.</div>
+      <div class="stack-cost">$99–$399/mo · Already in your stack</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">AI Writing Layer</div>
+      <div class="stack-tool-name">Claude API</div>
+      <div class="stack-tool-desc">Personalized email generation at scale. Reply classification. Pre-call brief generation. System prompt tuned to Kayana's voice and value prop.</div>
+      <div class="stack-cost">~$50–200/mo at volume · Pay per token</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">Orchestration Layer</div>
+      <div class="stack-tool-name">n8n</div>
+      <div class="stack-tool-desc">The glue. Routes signals from Crunchbase → Clay → Claude → CRM. Handles logic, delays, branching, and error handling. Self-hosted = full control.</div>
+      <div class="stack-cost">$20/mo self-hosted or $50/mo cloud</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">Sequence Execution</div>
+      <div class="stack-tool-name">Instantly.ai</div>
+      <div class="stack-tool-desc">Warm-up domains, send AI-generated emails with high deliverability. Multi-inbox rotation. Reply detection triggers n8n classification workflow.</div>
+      <div class="stack-cost">$37–$97/mo · Unlimited sends</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">CRM Layer</div>
+      <div class="stack-tool-name">HubSpot</div>
+      <div class="stack-tool-desc">All pipeline data lives here. Deal stages, contact history, meeting notes, performance reports. Free tier works to start; scale to Sales Hub when needed.</div>
+      <div class="stack-cost">Free → $45/mo Sales Starter</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-layer">Alerts Layer</div>
+      <div class="stack-tool-name">Slack + n8n</div>
+      <div class="stack-tool-desc">Hot lead alerts hit Chris's DMs in Slack within 15 minutes of a positive reply. Meeting bookings auto-post to a #pipeline channel. Weekly digest every Monday.</div>
+      <div class="stack-cost">Already in your stack</div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Total Stack Cost</div>
+    <div class="callout-text">Fully operational pipeline: approximately <strong>$750–$1,600/month</strong> all-in (varies by volume). At Kayana's ACV, <strong>one new client from this system pays for 6–12 months of the stack.</strong> The ROI math makes it a no-brainer to build before hitting a pipeline ceiling.</div>
+  </div>
+</div>
+
+<!-- BUILD SPRINT -->
+<div id="tab-sprint" class="section">
+  <div class="section-head">
+    <div class="section-label">Execution Plan</div>
+    <h2 class="section-title">Live in 6 weeks, not 6 months</h2>
+    <p class="section-sub">A phased build that gets first emails sending by week 3, with full automation live by week 6. Each phase has a single deliverable that can run independently.</p>
+  </div>
+
+  <div class="sprint-grid">
+
+    <div class="sprint-card">
+      <div class="sprint-week">Week 1–2</div>
+      <div class="sprint-title">Foundation + Data Infrastructure</div>
+      <div class="sprint-tasks">
+        <div class="sprint-task"><div class="task-dot"></div>Set up Crunchbase Pro + configure PE deal alerts for target sectors</div>
+        <div class="sprint-task"><div class="task-dot"></div>Build Clay table: signal input → company enrichment → ICP scoring formula</div>
+        <div class="sprint-task"><div class="task-dot"></div>Connect Apollo to Clay for contact enrichment waterfall</div>
+        <div class="sprint-task"><div class="task-dot"></div>Set up HubSpot pipeline with custom deal stages for PE outbound</div>
+        <div class="sprint-task"><div class="task-dot"></div>Configure 2–3 sending domains in Instantly with warmup running</div>
+      </div>
+      <div class="sprint-deliverable">→ Deliverable: Enriched list of 50 triggered accounts, scored + ready</div>
+    </div>
+
+    <div class="sprint-card">
+      <div class="sprint-week">Week 3–4</div>
+      <div class="sprint-title">AI Writing + Sequence Launch</div>
+      <div class="sprint-tasks">
+        <div class="sprint-task"><div class="task-dot"></div>Build Claude API system prompt tuned to Kayana voice, ICP tiers, and deal contexts</div>
+        <div class="sprint-task"><div class="task-dot"></div>Build n8n workflow: triggered account → Clay enrich → Claude generate → Instantly enroll</div>
+        <div class="sprint-task"><div class="task-dot"></div>Write 3-step sequences for Tier A and Tier B personas</div>
+        <div class="sprint-task"><div class="task-dot"></div>Test end-to-end with 10 real accounts from the Week 1–2 list</div>
+        <div class="sprint-task"><div class="task-dot"></div>Set up Slack alert for hot replies (n8n → Slack webhook)</div>
+      </div>
+      <div class="sprint-deliverable">→ Deliverable: First 50 emails sending, live pipeline in HubSpot</div>
+    </div>
+
+    <div class="sprint-card">
+      <div class="sprint-week">Week 5–6</div>
+      <div class="sprint-title">Reply Handling + Intelligence Loop</div>
+      <div class="sprint-tasks">
+        <div class="sprint-task"><div class="task-dot"></div>Build reply classification workflow (Claude API → intent label → route action)</div>
+        <div class="sprint-task"><div class="task-dot"></div>Build pre-call brief generator: HubSpot contact data → Claude → Google Doc to Chris</div>
+        <div class="sprint-task"><div class="task-dot"></div>Set up weekly pipeline digest (n8n → summarize HubSpot data → Slack report)</div>
+        <div class="sprint-task"><div class="task-dot"></div>Build LinkedIn connection request automation for Day 3 touchpoint</div>
+        <div class="sprint-task"><div class="task-dot"></div>Set up A/B testing on subject lines and track variant performance in HubSpot</div>
+      </div>
+      <div class="sprint-deliverable">→ Deliverable: Fully autonomous pipeline with zero manual steps pre-meeting</div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Who Builds This</div>
+    <div class="callout-text">This is a 6-week build for a technical AI systems builder comfortable with <strong>n8n, Claude API, Clay, and webhook integrations</strong>. The Clay + Apollo stack requires no code. The n8n orchestration layer requires basic workflow logic. The Claude API integration requires prompt engineering, not software development. <strong>Total build time: approximately 40–60 hours of focused work.</strong></div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<div id="tab-metrics" class="section">
+  <div class="section-head">
+    <div class="section-label">Performance Targets</div>
+    <h2 class="section-title">How you measure if it's working</h2>
+    <p class="section-sub">These are the KPIs that tell you whether the system is healthy — and which stage to optimize when it's not. Review weekly for the first 90 days.</p>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Signal → Outreach</div>
+      <div class="metric-value">48h</div>
+      <div class="metric-target">Target: <span>Under 48 hours</span> from deal close to first email sent</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Email Open Rate</div>
+      <div class="metric-value">45%</div>
+      <div class="metric-target">Target: <span>40–55%</span> for Tier A post-acquisition sends</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Reply Rate</div>
+      <div class="metric-value">8%</div>
+      <div class="metric-target">Target: <span>6–12%</span> — well above industry average of 1–3%</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Positive Reply Rate</div>
+      <div class="metric-value">3%</div>
+      <div class="metric-target">Target: <span>2–5%</span> of total sends → booking intent</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Reply → Meeting</div>
+      <div class="metric-value">40%</div>
+      <div class="metric-target">Target: <span>35–50%</span> of positive replies book a call</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Meetings / Month</div>
+      <div class="metric-value">12</div>
+      <div class="metric-target">Target at 300 sends/month: <span>10–15 meetings</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Meeting → Close</div>
+      <div class="metric-value">25%</div>
+      <div class="metric-target">Target: <span>20–35%</span> — higher for PE signal-triggered leads</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">New Clients / Month</div>
+      <div class="metric-value">3</div>
+      <div class="metric-target">Target: <span>2–4 new clients/month</span> at steady state</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">What to Optimize First</div>
+    <div class="callout-text">If open rate is low → fix subject lines and domain reputation. If reply rate is low → fix the first email body (likely too long or not signal-specific enough). If positive reply → meeting conversion is low → fix the response handling speed (replies need a human response within 2 hours). <strong>The biggest lever in this entire system is speed of response to positive replies</strong> — that's the only human-in-the-loop moment that matters.</div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-head">
+    <div class="section-label">Revenue Model</div>
+    <h2 class="section-title" style="font-size:22px;">What this system is worth at scale</h2>
+  </div>
+
+  <table class="icp-table">
+    <thead>
+      <tr><th>Scenario</th><th>Monthly Sends</th><th>Meetings Booked</th><th>New Clients</th><th>Est. Monthly Revenue Added</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Conservative</td>
+        <td>200 sends</td>
+        <td>6–8 meetings</td>
+        <td>1–2 new clients</td>
+        <td style="color:var(--accent-mid);font-weight:600;">+$8K–$16K MRR</td>
+      </tr>
+      <tr>
+        <td class="highlight">Target</td>
+        <td>400 sends</td>
+        <td>12–16 meetings</td>
+        <td>3–4 new clients</td>
+        <td style="color:var(--accent-mid);font-weight:600;">+$24K–$32K MRR</td>
+      </tr>
+      <tr>
+        <td class="highlight">Scale</td>
+        <td>800 sends</td>
+        <td>24–32 meetings</td>
+        <td>6–8 new clients</td>
+        <td style="color:var(--accent-mid);font-weight:600;">+$48K–$64K MRR</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <div class="footer-text">Built by Xenoz · Luke Fernandez · For Kayana × Chris Nolte</div>
+  <div class="footer-brand">XENOZ</div>
+</div>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copyMsg(btn) {
+    const msgBody = btn.closest('.msg-body');
+    const subject = msgBody.querySelector('.msg-subject')?.innerText || '';
+    const text = msgBody.querySelector('.msg-text')?.innerText || '';
+    const full = subject + '\n\n' + text;
+    navigator.clipboard.writeText(full).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy template';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      btn.textContent = 'Copy manually ↑';
+    });
+  }
+</script>
+</body>
+</html>

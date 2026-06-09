@@ -1,0 +1,210 @@
+.section {
+  padding: 32px 56px 64px;
+  background: var(--color-primary-light);
+}
+
+.tabRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-text-muted);
+  transition: all 0.15s ease;
+  min-height: 36px;
+}
+
+.tabBtn:hover {
+  border-color: var(--color-accent-orange);
+  color: var(--color-text-navy);
+}
+
+.tabBtnActive {
+  background: rgba(255, 107, 53, 0.1);
+  color: var(--color-accent-orange);
+  border-color: transparent;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-accent-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.pillar {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pillar:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.pillarHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.pillarIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pillarTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-navy);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.pillarSub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 2px 0 0;
+}
+
+.automationList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.autoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.autoBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.badgeBlue {
+  background: var(--color-status-blue-bg);
+  color: var(--color-status-blue-text);
+}
+
+.badgeGreen {
+  background: var(--color-status-green-bg);
+  color: var(--color-status-green-text);
+}
+
+.badgeAmber {
+  background: var(--color-status-orange-bg);
+  color: var(--color-status-orange-text);
+}
+
+.badgePurple {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.autoText {
+  font-size: 14px;
+  color: var(--color-text-navy);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.autoSub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+.dataGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dataCard {
+  background: var(--color-primary-light);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.dataLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin: 0 0 4px;
+  font-weight: 500;
+}
+
+.dataMetric {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-navy);
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 28px 20px 48px;
+  }
+
+  .tabRow {
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .tabBtn {
+    font-size: 11px;
+    padding: 8px 14px;
+  }
+
+  .pillar {
+    padding: 16px 18px;
+  }
+
+  .dataGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .autoItem {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 24px 16px 40px;
+  }
+}

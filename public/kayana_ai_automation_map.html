@@ -1,0 +1,373 @@
+
+<style>
+  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 10px; padding: 0; }
+  .pillar { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 10px; }
+  .pillar-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .pillar-icon { width: 32px; height: 32px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; }
+  .pillar-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+  .pillar-sub { font-size: 12px; color: var(--color-text-secondary); margin: 0; }
+  .automation-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .auto-item { display: flex; align-items: flex-start; gap: 8px; }
+  .auto-badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .badge-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .badge-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .auto-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+  .auto-sub { font-size: 12px; color: var(--color-text-secondary); }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 16px 0; }
+  .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .data-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+  .data-label { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 2px; }
+  .data-metric { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+  .flywheel-label { font-size: 12px; color: var(--color-text-secondary); text-align: center; margin-top: 4px; }
+  .tab-row { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn { font-size: 12px; padding: 5px 12px; border-radius: 100px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; transition: all .15s; }
+  .tab-btn.active { background: var(--color-background-info); color: var(--color-text-info); border-color: transparent; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .ask-btn { margin-top: 10px; font-size: 12px; padding: 5px 12px; border-radius: 100px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+  .ask-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<h2 class="sr-only">Kayana AI automation and data strategy map for scaling in 2026</h2>
+
+<div style="padding: 0 0 4px;">
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('ops')">Operations</button>
+    <button class="tab-btn" onclick="switchTab('revenue')">Revenue</button>
+    <button class="tab-btn" onclick="switchTab('talent')">Talent</button>
+    <button class="tab-btn" onclick="switchTab('data')">Data to collect</button>
+  </div>
+
+  <!-- OPS TAB -->
+  <div id="tab-ops" class="tab-content active">
+    <p class="section-title">Internal operations automation</p>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-info);">
+          <i class="ti ti-robot" style="font-size:16px; color: var(--color-text-info);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Client intake + scoping</p>
+          <p class="pillar-sub">First impression and time-to-placement</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-blue">n8n / Make</span>
+          <div>
+            <div class="auto-text">Auto-parse intake forms → score the client brief → route to right ops team lead</div>
+            <div class="auto-sub">Reduces manual triage from hours to minutes</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-blue">Claude API</span>
+          <div>
+            <div class="auto-text">AI that drafts a proposed Remote Ops Stack blueprint from the client's intake answers</div>
+            <div class="auto-sub">Compresses discovery → proposal from days to same-session</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-success);">
+          <i class="ti ti-chart-bar" style="font-size:16px; color: var(--color-text-success);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Performance reporting</p>
+          <p class="pillar-sub">Daily visibility + weekly reports — automated</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-green">Auto</span>
+          <div>
+            <div class="auto-text">Pull task completion, response time, and KPI data daily → generate AI-written summaries → deliver to client via Slack/email</div>
+            <div class="auto-sub">Replaces manual report writing entirely</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-green">Auto</span>
+          <div>
+            <div class="auto-text">Weekly scorecard auto-generated per operator — tied to SLA thresholds</div>
+            <div class="auto-sub">Catch performance dips before clients notice them</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-warning);">
+          <i class="ti ti-alert-triangle" style="font-size:16px; color: var(--color-text-warning);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Churn + escalation detection</p>
+          <p class="pillar-sub">Proactive, not reactive</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-amber">AI monitor</span>
+          <div>
+            <div class="auto-text">Sentiment analysis on client Slack messages + email threads → flag accounts at churn risk</div>
+            <div class="auto-sub">Surface red accounts to account managers before they cancel</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-amber">AI monitor</span>
+          <div>
+            <div class="auto-text">SLA breach detection → auto-escalate and reassign before client notices</div>
+            <div class="auto-sub">Same model Kayana built for their PE-backed insurance client — use it internally</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Give me a detailed build plan for the Kayana internal operations automations ↗')">Give me a build plan for these ↗</button>
+  </div>
+
+  <!-- REVENUE TAB -->
+  <div id="tab-revenue" class="tab-content">
+    <p class="section-title">Revenue + growth automation</p>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-info);">
+          <i class="ti ti-mail-forward" style="font-size:16px; color: var(--color-text-info);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Outbound pipeline engine</p>
+          <p class="pillar-sub">Systematic deal flow, not founder hustle</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-blue">Apollo + Clay</span>
+          <div>
+            <div class="auto-text">Auto-enrich PE firm contacts and lower-middle-market portco operators — pull funding rounds, headcount signals, and news triggers</div>
+            <div class="auto-sub">Prioritize outreach around post-acquisition windows (highest urgency state)</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-blue">Claude API</span>
+          <div>
+            <div class="auto-text">Personalized cold outreach written per prospect using their company context, not a template</div>
+            <div class="auto-sub">1-to-1 quality at 1-to-many volume</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-success);">
+          <i class="ti ti-repeat" style="font-size:16px; color: var(--color-text-success);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Expansion + upsell triggers</p>
+          <p class="pillar-sub">Revenue from existing accounts</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-green">Auto</span>
+          <div>
+            <div class="auto-text">Monitor client headcount growth signals → trigger upsell proposal when a portco doubles in size</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-green">Auto</span>
+          <div>
+            <div class="auto-text">90-day client health check flow → auto-propose adding a second operator role before the client thinks to ask</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: #EEEDFE;">
+          <i class="ti ti-building-community" style="font-size:16px; color: #3C3489;" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">PE firm relationship layer</p>
+          <p class="pillar-sub">Portfolio-wide intelligence</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-purple">AI agent</span>
+          <div>
+            <div class="auto-text">Track PE firm deal activity → alert the Kayana team when a firm closes a new acquisition → trigger a warm outreach sequence to that portco within 48 hours</div>
+            <div class="auto-sub">Acquisition + day = highest urgency window for ops staffing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Build me an outbound pipeline automation system for Kayana targeting PE-backed companies ↗')">Build the outbound pipeline ↗</button>
+  </div>
+
+  <!-- TALENT TAB -->
+  <div id="tab-talent" class="tab-content">
+    <p class="section-title">Talent operations automation</p>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-info);">
+          <i class="ti ti-filter" style="font-size:16px; color: var(--color-text-info);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Candidate screening pipeline</p>
+          <p class="pillar-sub">AI-first, human-confirmed</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-blue">Claude API</span>
+          <div>
+            <div class="auto-text">Auto-score applications against role criteria → rank and summarize top 10 → only humans review pre-screened shortlist</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-blue">Auto</span>
+          <div>
+            <div class="auto-text">AI voice/text pre-screening agent that qualifies candidates asynchronously before any human call</div>
+            <div class="auto-sub">Compress recruiter time per hire by 60–70%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-success);">
+          <i class="ti ti-checklist" style="font-size:16px; color: var(--color-text-success);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Onboarding automation</p>
+          <p class="pillar-sub">Day 1 experience at scale</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-green">Auto</span>
+          <div>
+            <div class="auto-text">Trigger onboarding sequence the moment placement is confirmed — tools access, SOPs, client brief, intro meeting scheduled — zero manual steps</div>
+          </div>
+        </div>
+        <div class="auto-item">
+          <span class="auto-badge badge-green">AI agent</span>
+          <div>
+            <div class="auto-text">30/60/90 day check-in agent that surfaces operator health flags and training gaps automatically</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon" style="background: var(--color-background-warning);">
+          <i class="ti ti-school" style="font-size:16px; color: var(--color-text-warning);" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="pillar-title">Continuous upskilling engine</p>
+          <p class="pillar-sub">AI training before day one — and after</p>
+        </div>
+      </div>
+      <div class="automation-list">
+        <div class="auto-item">
+          <span class="auto-badge badge-amber">AI</span>
+          <div>
+            <div class="auto-text">Personalized AI training paths per operator based on role, client tool stack, and skill gaps detected from performance data</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Design the Kayana AI-powered talent pipeline from screening to 90-day review ↗')">Design the talent pipeline ↗</button>
+  </div>
+
+  <!-- DATA TAB -->
+  <div id="tab-data" class="tab-content">
+    <p class="section-title">Critical data Kayana must start capturing now</p>
+
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon" style="background: var(--color-background-info);">
+            <i class="ti ti-users" style="font-size:16px; color: var(--color-text-info);" aria-hidden="true"></i>
+          </div>
+          <div><p class="pillar-title">Client health score</p><p class="pillar-sub">Leading indicator of churn and expansion</p></div>
+        </div>
+        <div class="data-grid">
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Response time (client → ops)</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Slack/email sentiment trend</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Weekly task completion rate</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">NPS at 30/60/90 days</p></div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon" style="background: var(--color-background-success);">
+            <i class="ti ti-user-check" style="font-size:16px; color: var(--color-text-success);" aria-hidden="true"></i>
+          </div>
+          <div><p class="pillar-title">Operator performance fingerprint</p><p class="pillar-sub">What makes a top performer — at the data level</p></div>
+        </div>
+        <div class="data-grid">
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Time-to-autonomy per role</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">SLA breach frequency</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Proactive action rate (vs reactive)</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Client-rated quality score</p></div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon" style="background: #EEEDFE;">
+            <i class="ti ti-circuit-board" style="font-size:16px; color: #3C3489;" aria-hidden="true"></i>
+          </div>
+          <div><p class="pillar-title">Placement match data</p><p class="pillar-sub">The "fit model" that gets smarter over time</p></div>
+        </div>
+        <div class="data-grid">
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Operator × client industry match</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Tool stack overlap at hire</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Retention rate by match type</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">First 30-day performance score</p></div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon" style="background: var(--color-background-warning);">
+            <i class="ti ti-trending-up" style="font-size:16px; color: var(--color-text-warning);" aria-hidden="true"></i>
+          </div>
+          <div><p class="pillar-title">Revenue intelligence</p><p class="pillar-sub">Where the money actually comes from</p></div>
+        </div>
+        <div class="data-grid">
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Revenue per operator deployed</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">CAC by channel</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">LTV by client segment</p></div>
+          <div class="data-card"><p class="data-label">Track</p><p class="data-metric">Expansion revenue %</p></div>
+        </div>
+      </div>
+
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Build me a data tracking system design for Kayana — what tools and schemas to use ↗')">Design the data system ↗</button>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>

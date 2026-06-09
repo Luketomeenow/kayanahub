@@ -1,0 +1,75 @@
+.wrapper {
+  position: relative;
+  background: var(--color-primary-light);
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  border: none;
+  background: var(--color-primary-light);
+  min-height: 400px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.frameReady {
+  opacity: 1;
+}
+
+.skeleton {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonTabs {
+  height: 40px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  max-width: 480px;
+}
+
+.skeletonCard {
+  height: 120px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonCard:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.skeletonCard:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.error {
+  padding: 48px 56px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .skeleton {
+    padding: 16px;
+  }
+
+  .error {
+    padding: 32px 20px;
+  }
+}
